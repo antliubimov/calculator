@@ -4,27 +4,42 @@ const buttons = document.querySelectorAll('button');
 
 buttons.forEach(btn => btn.addEventListener('click', btnClick));
 
+let num1 = 0;
+let num2 = 0;
+let result = 0;
+
 function btnClick(e) {
-  let dataType = e.target.attributes['data-type'].value;
-console.log(dataType);
-  if (dataType === 'operation') {
-    screenInput.innerText += e.target.innerText;
-    screenOutput.innerText = '0';
-  } else if (dataType === 'number') {
-    if (screenOutput.innerText === '0') {
-      screenOutput.innerText = e.target.innerText;
-    } else {
-      screenOutput.innerText += e.target.innerText;
-    }
-
-    screenInput.innerText += e.target.innerText;
+  if (e.target.hasAttribute('data-number')) {
+    writeNumber.call(this, e.target.getAttribute('data-number'));
+  } else if (e.target.hasAttribute('data-key')) {
+    operateMath(this, e.target.getAttribute(('data-key')));
   }
+}
 
-  if (e.target.innerText === 'C') {
-    screenInput.innerText = '';
-    screenOutput.innerText = '0';
+function writeNumber(num) {
+  (screenOutput.innerText === '0') ? screenOutput.innerText = num : screenOutput.innerText += num;
+  screenInput.innerText += num;
+}
+
+function operateMath(key) {
+  switch (key) {
+    case 'C':
+      break;
+    case '+/-':
+      break;
+    case '%':
+      break;
+    case '/':
+      break;
+    case '*':
+      break;
+    case '-':
+      break;
+    case '+':
+      break;
+    case '=':
+      break;
   }
-
 }
 
 function add(a, b) {

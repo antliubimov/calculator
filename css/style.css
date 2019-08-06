@@ -7,7 +7,7 @@
     background: linear-gradient(225deg, #7c8180, #000000);
     background-size: 200% 300%;
     font-family: 'Saira Stencil One', cursive;
-    font-size: 20px;
+    /*font-size: 20px;*/
 }
 
 .calc {
@@ -28,51 +28,50 @@
     background-color: #fafafa;
     border-radius: 5px 5px 0px 0px;
     color: #1f2525;
-    font-size: 24px;
+    font-size: 1.5rem;
     font-weight: 100;
 }
 
 .screen-output {
-    font-size: 36px;
+    font-size: 2.25rem;
 }
 
 .buttons {
-    box-sizing: border-box;
     height: 350px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 1px;
     background-color: #2c3134;
     border-radius: 0 0 5px 5px;
+    font-size: 1.5rem;
 }
 
 button {
+    box-sizing: border-box;
     background-color: #1e2326;
     color: #f8f8fa;
     border: none;
     outline: none;
 }
 
-button:active {
-    border: 3px solid #fec208;
-    font-size: 16px;
-}
-
-button[data-value='='] {
+button[data-key='='] {
     border-radius: 0 0 5px 0;
     background-color: #fec208;
     color: #11292b;
-    font-size: 24px;
 }
 
-button[data-value='0'] {
+button[data-number='0'] {
     border-radius: 0 0 0 5px;
 }
 
-button[data-value='/'],
-button[data-value='*'],
-button[data-value='-'],
-button[data-value='+'] {
+button[data-key='/'],
+button[data-key='*'],
+button[data-key='-'],
+button[data-key='+'] {
     background-color: #5e4bb6;
-    font-size: 24px;
+}
+
+button:active {
+    border: 3px solid #fec208;
+    font-size: 16px;
 }
