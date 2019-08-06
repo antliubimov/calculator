@@ -5,8 +5,21 @@ const buttons = document.querySelectorAll('button');
 buttons.forEach(btn => btn.addEventListener('click', btnClick));
 
 function btnClick(e) {
-  screenOutput.innerText = e.target.innerText;
-  screenInput.innerText += e.target.innerText;
+  let dataType = e.target.attributes['data-type'].value;
+console.log(dataType);
+  if (dataType === 'operation') {
+    screenInput.innerText += e.target.innerText;
+    screenOutput.innerText = '0';
+  } else if (dataType === 'number') {
+    if (screenOutput.innerText === '0') {
+      screenOutput.innerText = e.target.innerText;
+    } else {
+      screenOutput.innerText += e.target.innerText;
+    }
+
+    screenInput.innerText += e.target.innerText;
+  }
+
   if (e.target.innerText === 'C') {
     screenInput.innerText = '';
     screenOutput.innerText = '0';
