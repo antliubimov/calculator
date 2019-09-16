@@ -4,28 +4,48 @@ const buttons = document.querySelectorAll('button');
 
 buttons.forEach(btn => btn.addEventListener('click', btnClick));
 
-let num1 = 0;
-let num2 = 0;
-let result = 0;
+let calc = {
+  operation: null,
+}
+
+let num1 = null;
+let num2 = null;
+let result = null;
 
 function btnClick(e) {
   if (e.target.hasAttribute('data-number')) {
     writeNumber.call(this, e.target.getAttribute('data-number'));
   } else if (e.target.hasAttribute('data-key')) {
-    operateMath(this, e.target.getAttribute(('data-key')));
+    operateMath.call(this, e.target.getAttribute(('data-key')));
   }
 }
 
 function writeNumber(num) {
-  (screenOutput.innerText === '0') ? screenOutput.innerText = num : screenOutput.innerText += num;
-  screenInput.innerText += num;
+  if (screenOutput.innerText.length < 13) {
+    (screenOutput.innerText === '0') ? screenOutput.innerText = num : screenOutput.innerText += num;
+    screenInput.innerText += num;
+  }
 }
 
 function operateMath(key) {
+  console.log(key);
   switch (key) {
     case 'C':
+      screenOutput.innerText = '0';
+      screenInput.innerText = '';
+      num1 = null;
+      num2 = null;
+      result = null;
       break;
     case '+/-':
+      screenOutput.innerText = screenOutput.innerText * (-1);
+      break;
+    case 'del':
+      break;
+    case '.':
+      if (!screenOutput.innerText.includes('.')) {
+        screenOutput.innerText += '.';
+      }
       break;
     case '%':
       break;

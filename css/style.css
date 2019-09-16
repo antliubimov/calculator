@@ -11,7 +11,7 @@
 }
 
 .calc {
-    width: 380px;
+    min-width: 380px;
     box-sizing: border-box;
     box-shadow: -10px 10px 16px 2px black;
     border-radius: 5px 5px 5px 5px;
@@ -19,7 +19,7 @@
 
 .screen {
     box-sizing: border-box;
-    height: 220px;
+    min-height: 220px;
     padding: 20px;
     display: flex;
     align-items: flex-end;
@@ -37,7 +37,7 @@
 }
 
 .buttons {
-    height: 350px;
+    min-height: 350px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 1px;
