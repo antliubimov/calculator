@@ -62,6 +62,11 @@ function operateMath(key) {
       }
       break;
     case "%":
+      if (calc.num1 !== null) {
+        screenOutput.innerText = String(calc.num1 / 100 * Number(screenOutput.innerText));
+      } else {
+        screenOutput.innerText = '0';
+      }
       break;
     case "/":
       checkNums();
@@ -73,7 +78,6 @@ function operateMath(key) {
     case "*":
       checkNums();
       checkOperation("*", multiply);
-
       calc.arr.push("*");
       calc.operation = multiply;
       screenInputText();
@@ -119,10 +123,6 @@ function operate(operation, num1, num2) {
   return operation(num1, num2);
 }
 
-function clearOutput() {
-  screenOutput.innerText = "0";
-}
-
 function checkOperation(oper, operation) {
   if (calc.arr.length > 1 && /[*\/+-]/g.test(calc.arr[calc.arr.length - 1])) {
     calc.arr.pop();
@@ -135,7 +135,6 @@ function checkNums() {
   if (calc.num1 === null) {
     calc.num1 = Number(screenOutput.innerText);
     calc.arr.push(calc.num1);
-    // clearOutput();
   }
   if (calc.num1 !== null && calc.operation !== null) {
     calc.num2 = Number(screenOutput.innerText);
