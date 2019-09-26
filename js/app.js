@@ -4,6 +4,7 @@ let calc = {
   num1: null,
   num2: null,
   arr: [],
+  lastEnter: null
 };
 
 const screenInput = document.querySelector(".screen-input");
@@ -23,17 +24,19 @@ function btnClick(e) {
 function writeNumber(num) {
   if (screenOutput.innerText.length < 13) {
     if (calc.result !== null) {
-      calc.num1 = calc.result;
-      clearOutput();
+      [calc.num1, calc.result] = [calc.result, null];
     }
-    screenOutput.innerText === "0"
+
+    /[*\/+-]/g.test(calc.lastEnter) || screenOutput.innerText === "0"
       ? (screenOutput.innerText = num)
       : (screenOutput.innerText += num);
-    screenInput.innerText += num;
+
+    calc.lastEnter = num;
   }
 }
 
 function operateMath(key) {
+  calc.lastEnter = key;
   switch (key) {
     case "C":
       screenOutput.innerText = "0";
@@ -55,38 +58,38 @@ function operateMath(key) {
       }
       break;
     case "%":
-
       break;
     case "/":
-      checkOperation('/', divide);
       checkNums();
-      calc.arr.push('/');
+      checkOperation("/", divide);
+      calc.arr.push("/");
       calc.operation = divide;
       screenInputText();
       break;
     case "*":
-      checkOperation('*', multiply);
       checkNums();
-      calc.arr.push('*');
+      checkOperation("*", multiply);
+
+      calc.arr.push("*");
       calc.operation = multiply;
       screenInputText();
       break;
     case "-":
-      checkOperation('-', subtract);
       checkNums();
-      calc.arr.push('-');
+      checkOperation("-", subtract);
+      calc.arr.push("-");
       calc.operation = subtract;
       screenInputText();
       break;
     case "+":
-      checkOperation('+', add);
       checkNums();
-      calc.arr.push('+');
+      checkOperation("+", add);
+      calc.arr.push("+");
       calc.operation = add;
       screenInputText();
       break;
     case "=":
-      calc.operation = '=';
+      calc.operation = "=";
       break;
   }
 }
@@ -104,7 +107,7 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
-  if (b === 0) return 'Cannot divide by zero';
+  if (b === 0) return "Cannot divide by zero";
   return a / b;
 }
 
@@ -113,23 +116,22 @@ function operate(operation, num1, num2) {
 }
 
 function clearOutput() {
-  screenOutput.innerText = '0';
+  screenOutput.innerText = "0";
 }
 
 function checkOperation(oper, operation) {
-  if (calc.arr.length > 1 && (/[*\/+-]/g).test(calc.arr[calc.arr.length - 1])) {
-      calc.arr.pop();
+  if (calc.arr.length > 1 && /[*\/+-]/g.test(calc.arr[calc.arr.length - 1])) {
+    calc.arr.pop();
     calc.arr.push(oper);
     calc.operation = operation;
   }
-
 }
 
 function checkNums() {
   if (calc.num1 === null) {
     calc.num1 = Number(screenOutput.innerText);
     calc.arr.push(calc.num1);
-    clearOutput();
+    // clearOutput();
   }
   if (calc.num1 !== null && calc.operation !== null) {
     calc.num2 = Number(screenOutput.innerText);
@@ -143,5 +145,5 @@ function checkNums() {
 }
 
 function screenInputText() {
-  screenInput.innerText = calc.arr.join('');
+  screenInput.innerText = calc.arr.join("");
 }
