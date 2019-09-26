@@ -51,6 +51,10 @@ function operateMath(key) {
       screenOutput.innerText = screenOutput.innerText * -1;
       break;
     case "del":
+      let str = screenOutput.innerText.split('');
+      str.splice(-1,1);
+      screenOutput.innerText = str.join('');
+      if (screenOutput.innerText === '') screenOutput.innerText = '0';
       break;
     case ".":
       if (!screenOutput.innerText.includes(".")) {
