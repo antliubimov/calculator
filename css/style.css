@@ -31,8 +31,11 @@
     color: #1f2525;
     font-size: 1.5rem;
     font-weight: 100;
+    overflow: hidden;
 }
-
+.screen-input {
+    line-height: 1.6;
+}
 .screen-output {
     font-size: 2.25rem;
 }

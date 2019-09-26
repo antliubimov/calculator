@@ -31,6 +31,14 @@ function writeNumber(num) {
       ? (screenOutput.innerText = num)
       : (screenOutput.innerText += num);
 
+    if (calc.lastEnter === '=') {
+     for (let key in calc) {
+       calc[key] = null;
+     }
+     calc.arr = [];
+     screenInput.innerText = '';
+     screenOutput.innerText = num;
+    }
     calc.lastEnter = num;
   }
 }
@@ -97,7 +105,11 @@ function operateMath(key) {
       screenInputText();
       break;
     case "=":
-      calc.operation = "=";
+      checkNums();
+      calc.lastEnter = '=';
+      screenInput.innerText = String(calc.result);
+      calc.arr = [calc.result];
+      calc.num1 = calc.result;
       break;
   }
 }
