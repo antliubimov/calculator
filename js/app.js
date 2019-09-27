@@ -44,7 +44,7 @@ function writeNumber(num) {
 }
 
 function operateMath(key) {
-  calc.lastEnter = key;
+
   switch (key) {
     case "C":
       screenOutput.innerText = "0";
@@ -77,67 +77,53 @@ function operateMath(key) {
       }
       break;
     case "/":
-      checkNums();
-      checkOperation("/", divide);
-      calc.arr.push("/");
-      calc.operation = divide;
-      screenInputText();
+      clickOperation("/", divide);
       break;
     case "*":
-      checkNums();
-      checkOperation("*", multiply);
-      calc.arr.push("*");
-      calc.operation = multiply;
-      screenInputText();
+      clickOperation("*", multiply);
       break;
     case "-":
-      checkNums();
-      checkOperation("-", subtract);
-      calc.arr.push("-");
-      calc.operation = subtract;
-      screenInputText();
+      clickOperation("-", subtract);
       break;
     case "+":
-      checkNums();
-      checkOperation("+", add);
-      calc.arr.push("+");
-      calc.operation = add;
-      screenInputText();
+      clickOperation("+", add);
       break;
     case "=":
-      checkNums();
-      calc.lastEnter = '=';
+      if (calc.num2 === null) {
+        calc.result = calc.num1;
+        calc.num1 = null;
+        screenInput.innerText = String(calc.result);
+      } else if (!/[*\/+-]/g.test(calc.lastEnter)) {
+        checkNums();
+      }
       screenInput.innerText = String(calc.result);
       calc.arr = [calc.result];
       calc.num1 = calc.result;
+
       break;
   }
 }
 
-function add(a, b) {
-  return a + b;
-}
-
-function subtract(a, b) {
-  return a - b;
-}
-
-function multiply(a, b) {
-  return a * b;
-}
-
-function divide(a, b) {
-  if (b === 0) return "Cannot divide by zero";
-  return a / b;
-}
-
-function operate(operation, num1, num2) {
-  return operation(num1, num2);
+function clickOperation(key, operation) {
+  if (/[*\/+-]/g.test(calc.lastEnter)){
+    checkOperation(key, operation);
+    calc.lastEnter = key;
+  } else  {
+    checkNums();
+    calc.arr.push(key);
+    calc.operation = operation;
+    screenInputText();
+    calc.lastEnter = key;
+  }
 }
 
 function checkOperation(oper, operation) {
-  if (calc.arr.length > 1 && /[*\/+-]/g.test(calc.arr[calc.arr.length - 1])) {
+  if (calc.arr.length > 1) {
     calc.arr.pop();
+    let str = screenInput.innerText.split('');
+    str.splice(-1,1);
+    screenInput.innerText = str.join('');
+    screenInput.innerText += oper;
     calc.arr.push(oper);
     calc.operation = operation;
   }
@@ -161,4 +147,25 @@ function checkNums() {
 
 function screenInputText() {
   screenInput.innerText = calc.arr.join("");
+}
+
+function operate(operation, num1, num2) {
+  return operation(num1, num2);
+}
+
+function add(a, b) {
+  return a + b;
+}
+
+function subtract(a, b) {
+  return a - b;
+}
+
+function multiply(a, b) {
+  return a * b;
+}
+
+function divide(a, b) {
+  if (b === 0) return "Cannot divide by zero";
+  return a / b;
 }
