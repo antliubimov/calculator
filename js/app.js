@@ -89,17 +89,15 @@ function operateMath(key) {
       clickOperation("+", add);
       break;
     case "=":
-      if (calc.num2 === null) {
-        calc.result = calc.num1;
-        calc.num1 = null;
-        screenInput.innerText = String(calc.result);
-      } else if (!/[*\/+-]/g.test(calc.lastEnter)) {
+      if (calc.num1 === null) {
+        calc.result = Number(screenOutput.innerText);
+      } else  {
         checkNums();
       }
       screenInput.innerText = String(calc.result);
       calc.arr = [calc.result];
       calc.num1 = calc.result;
-
+      calc.lastEnter = '=';
       break;
   }
 }
