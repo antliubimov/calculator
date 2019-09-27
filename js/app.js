@@ -22,7 +22,10 @@ function btnClick(e) {
 }
 
 function writeNumber(num) {
-  if (screenOutput.innerText.length < 13) {
+  if (screenOutput.innerText.length >= 12) {
+    screenOutput.innerText = "This number very big or small";
+    clearCalc();
+  } else {
     if (calc.result !== null) {
       [calc.num1, calc.result] = [calc.result, null];
     }
@@ -31,20 +34,16 @@ function writeNumber(num) {
       ? (screenOutput.innerText = num)
       : (screenOutput.innerText += num);
 
-    if (calc.lastEnter === '=') {
-     for (let key in calc) {
-       calc[key] = null;
-     }
-     calc.arr = [];
-     screenInput.innerText = '';
-     screenOutput.innerText = num;
+    if (calc.lastEnter === "=") {
+      clearCalc();
+      screenInput.innerText = "";
+      screenOutput.innerText = num;
     }
     calc.lastEnter = num;
   }
 }
 
 function operateMath(key) {
-
   switch (key) {
     case "C":
       screenOutput.innerText = "0";
@@ -59,10 +58,10 @@ function operateMath(key) {
       screenOutput.innerText = screenOutput.innerText * -1;
       break;
     case "del":
-      let str = screenOutput.innerText.split('');
-      str.splice(-1,1);
-      screenOutput.innerText = str.join('');
-      if (screenOutput.innerText === '') screenOutput.innerText = '0';
+      let str = screenOutput.innerText.split("");
+      str.splice(-1, 1);
+      screenOutput.innerText = str.join("");
+      if (screenOutput.innerText === "") screenOutput.innerText = "0";
       break;
     case ".":
       if (!screenOutput.innerText.includes(".")) {
@@ -71,9 +70,11 @@ function operateMath(key) {
       break;
     case "%":
       if (calc.num1 !== null) {
-        screenOutput.innerText = String(calc.num1 / 100 * Number(screenOutput.innerText));
+        screenOutput.innerText = String(
+          (calc.num1 / 100) * Number(screenOutput.innerText)
+        );
       } else {
-        screenOutput.innerText = '0';
+        screenOutput.innerText = "0";
       }
       break;
     case "/":
@@ -91,22 +92,23 @@ function operateMath(key) {
     case "=":
       if (calc.num1 === null) {
         calc.result = Number(screenOutput.innerText);
-      } else  {
+      } else {
         checkNums();
       }
+      checkLength();
       screenInput.innerText = String(calc.result);
       calc.arr = [calc.result];
       calc.num1 = calc.result;
-      calc.lastEnter = '=';
+      calc.lastEnter = "=";
       break;
   }
 }
 
 function clickOperation(key, operation) {
-  if (/[*\/+-]/g.test(calc.lastEnter)){
+  if (/[*\/+-]/g.test(calc.lastEnter)) {
     checkOperation(key, operation);
     calc.lastEnter = key;
-  } else  {
+  } else {
     checkNums();
     calc.arr.push(key);
     calc.operation = operation;
@@ -118,12 +120,19 @@ function clickOperation(key, operation) {
 function checkOperation(oper, operation) {
   if (calc.arr.length > 1) {
     calc.arr.pop();
-    let str = screenInput.innerText.split('');
-    str.splice(-1,1);
-    screenInput.innerText = str.join('');
+    let str = screenInput.innerText.split("");
+    str.splice(-1, 1);
+    screenInput.innerText = str.join("");
     screenInput.innerText += oper;
     calc.arr.push(oper);
     calc.operation = operation;
+  }
+}
+
+function checkLength() {
+  if (String(calc.result).length > 12) {
+    let exp = String(calc.result).length - 12;
+    calc.result = calc.result.toExponential(exp);
   }
 }
 
@@ -139,8 +148,16 @@ function checkNums() {
     calc.num1 = null;
     calc.num2 = null;
     calc.operation = null;
+    checkLength();
     screenOutput.innerText = String(calc.result);
   }
+}
+
+function clearCalc() {
+  for (let key in calc) {
+    calc[key] = null;
+  }
+  calc.arr = [];
 }
 
 function screenInputText() {
