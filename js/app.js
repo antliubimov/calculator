@@ -12,6 +12,26 @@ const screenOutput = document.querySelector(".screen-output");
 const buttons = document.querySelectorAll("button");
 
 buttons.forEach(btn => btn.addEventListener("click", btnClick));
+window.addEventListener('keydown', clickKey);
+
+function clickKey(e) {
+  let key = e.key;
+  if (key === 'Delete') {
+    e.preventDefault();
+    operateMath('C');
+    return;
+  }
+  if (key === 'Backspace') {
+    e.preventDefault();
+    operateMath('del');
+    return;
+  }
+  if (/^[0-9]/.test(key)) {
+    writeNumber(key);
+  } else if (/[+-\/*=%]/.test(key)) {
+    operateMath(key);
+  }
+}
 
 function btnClick(e) {
   if (e.target.hasAttribute("data-number")) {
