@@ -9,3 +9,4 @@ This is a simple calculator on Vanilla JS that has functions
 - percent;
 
 ## Screenshoot
+![Calculator](https://github.com/antliubimov/calculator/blob/master/calculator.png)
